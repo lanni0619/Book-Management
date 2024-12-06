@@ -2,7 +2,7 @@ const Book = require("../models/book");
 
 const getBooks = async (req, res) => {
   try {
-    const books = await Book.findAll();
+    const books = await Book.findAll({ order: [["id", "DESC"]] });
     res.status(200).json({
       status: "success",
       results: books.length,
@@ -22,7 +22,10 @@ const getOneBook = async (req, res) => {
     }
 
     const result = await Book.findByPk(id);
-    res.status(200).json({ data: result });
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
   } catch (error) {
     res.status(500).json({ message: "Error updating book" });
   }
@@ -51,7 +54,10 @@ const createBook = async (req, res) => {
       year,
       genre,
     });
-    res.status(201).json(book);
+    res.status(201).json({
+      status: "success",
+      data: book,
+    });
   } catch (error) {
     res.status(500).json({ message: "Error creating book" });
   }
@@ -81,7 +87,7 @@ const deleteBook = async (req, res) => {
       return res.status(401).json({ message: "Invalid ID" });
     }
     await Book.destroy({ where: { id } });
-    res.status(200).json({ message: "Book deleted" });
+    res.status(204).json({ message: "Book deleted" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting book" });
   }
