@@ -23,7 +23,7 @@ const Book = sequelize.define("Book", {
     type: DataTypes.INTEGER,
   },
   genre: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM("Fiction", "Non Fiction"),
   },
 });
 
