@@ -18,7 +18,10 @@ const getOneBook = async (req, res) => {
   try {
     const checkID = await Book.findByPk(id);
     if (!checkID) {
-      return res.status(401).json({ message: "Invalid ID" });
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid ID",
+      });
     }
 
     const result = await Book.findByPk(id);

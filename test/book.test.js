@@ -10,12 +10,20 @@ describe("REST-API of Books", () => {
     expect(res.results).not.toBe(0);
   });
 
-  it("GET /books/:id", async () => {
+  it("GET /books/:id | success", async () => {
     const postId = 1;
     const res = await request(app).get(`/api/v1/books/${postId}`);
-    expect(res.statusCode).toEqual(200);
+    expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("status", "success");
     expect(res.body.data).toHaveProperty("id", postId);
+  });
+
+  it("GET /books/:id | fail", async () => {
+    const postId = 0;
+    const res = await request(app).get(`/api/v1/books/${postId}`);
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toHaveProperty("status", "fail");
+    expect(res.body).toHaveProperty("message", "Invalid ID");
   });
 
   it("POST /books", async () => {
